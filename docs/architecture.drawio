@@ -1,0 +1,256 @@
+<mxfile host="app.diagrams.net" modified="2026-03-30T06:00:00.000Z" agent="Draw.io" version="21.0.0" type="device">
+  <diagram id="chronoexam-architecture" name="ChronoExam Architecture">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="900" math="0" shadow="1">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="title" value="&lt;b&gt;ChronoExam — System Architecture Diagram&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;fontSize=22;fontColor=#1a1a2e;" vertex="1" parent="1">
+          <mxGeometry x="450" y="20" width="500" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- FRONTEND SECTION -->
+        <mxCell id="frontend-group" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;shadow=1;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="100" width="280" height="380" as="geometry" />
+        </mxCell>
+        <mxCell id="frontend-title" value="&lt;b&gt;🖥️ FRONTEND&lt;/b&gt;&lt;br&gt;React.js (Port 3000)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;fontSize=14;fontColor=#1a1a2e;" vertex="1" parent="1">
+          <mxGeometry x="80" y="110" width="200" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- Frontend Components -->
+        <mxCell id="login-screen" value="🔐 Login Screen" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;shadow=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="60" y="165" width="120" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="admin-dashboard" value="📊 Admin Dashboard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;shadow=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="185" y="165" width="125" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="schedule-mgmt" value="📅 Schedule Management" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;shadow=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="60" y="210" width="155" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="student-timetable" value="📋 Student Timetable" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;shadow=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="60" y="255" width="140" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="complaint-screen" value="📝 Complaints" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;shadow=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="210" y="255" width="100" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="room-mgmt" value="🏫 Room Management" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;shadow=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="60" y="300" width="140" height="35" as="geometry" />
+        </mxCell>
+
+        <!-- Frontend Tech -->
+        <mxCell id="frontend-tech" value="&lt;b&gt;Tech:&lt;/b&gt; React.js | Redux | Axios&lt;br&gt;Material UI | React Router" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontColor=#666;" vertex="1" parent="1">
+          <mxGeometry x="60" y="350" width="240" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- REST API Arrow (Frontend → Backend) -->
+        <mxCell id="arrow-fe-be" value="" style="endArrow=block;endFill=1;html=1;strokeWidth=3;strokeColor=#e94560;entryX=0;entryY=0.5;exitX=1;exitY=0.5;" edge="1" parent="1" source="frontend-group" target="backend-group">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow-fe-be-label" value="&lt;b&gt;REST API&lt;/b&gt;&lt;br&gt;(HTTP/JSON via Axios)" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=11;fontColor=#e94560;" vertex="1" connectable="0" parent="arrow-fe-be">
+          <mxGeometry x="-0.1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- BACKEND SECTION -->
+        <mxCell id="backend-group" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;shadow=1;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="440" y="100" width="340" height="380" as="geometry" />
+        </mxCell>
+        <mxCell id="backend-title" value="&lt;b&gt;⚙️ BACKEND&lt;/b&gt;&lt;br&gt;Node.js + Express (Port 8000)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;fontSize=14;fontColor=#1a1a2e;" vertex="1" parent="1">
+          <mxGeometry x="480" y="110" width="260" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- Auth Layer -->
+        <mxCell id="auth-layer" value="🔒 JWT Authentication &amp; Authorization&lt;br&gt;(Passport.js + express-jwt)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;shadow=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="460" y="165" width="300" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- API Routes -->
+        <mxCell id="api-routes" value="📡 &lt;b&gt;REST API Routes&lt;/b&gt;&lt;br&gt;/api/auth | /api/schedules&lt;br&gt;/api/subjects | /api/classes&lt;br&gt;/api/rooms | /api/complaints" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;shadow=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="460" y="215" width="190" height="75" as="geometry" />
+        </mxCell>
+
+        <!-- Scheduling Engine -->
+        <mxCell id="scheduling-engine" value="🧠 &lt;b&gt;Scheduling&lt;br&gt;Engine&lt;/b&gt;&lt;br&gt;Conflict Detection&lt;br&gt;2-Hour Gap Rule" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;shadow=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="660" y="215" width="105" height="75" as="geometry" />
+        </mxCell>
+
+        <!-- WebSocket -->
+        <mxCell id="websocket" value="🔄 Socket.IO&lt;br&gt;(Real-time Updates)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666;shadow=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="460" y="300" width="140" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- File Upload -->
+        <mxCell id="file-upload" value="📄 Multer&lt;br&gt;(File Upload/Export)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666;shadow=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="610" y="300" width="140" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Backend Tech -->
+        <mxCell id="backend-tech" value="&lt;b&gt;Tech:&lt;/b&gt; Node.js | Express.js&lt;br&gt;Mongoose | JWT | Socket.IO | Multer" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontColor=#666;" vertex="1" parent="1">
+          <mxGeometry x="460" y="355" width="300" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Mongoose Arrow (Backend → Database) -->
+        <mxCell id="arrow-be-db" value="" style="endArrow=block;endFill=1;html=1;strokeWidth=3;strokeColor=#0f3460;entryX=0;entryY=0.5;exitX=1;exitY=0.5;" edge="1" parent="1" source="backend-group" target="db-group">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow-be-db-label" value="&lt;b&gt;Mongoose ODM&lt;/b&gt;&lt;br&gt;(CRUD Queries)" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=11;fontColor=#0f3460;" vertex="1" connectable="0" parent="arrow-be-db">
+          <mxGeometry x="-0.1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- DATABASE SECTION -->
+        <mxCell id="db-group" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6d0de;strokeColor=#996185;shadow=1;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="900" y="100" width="250" height="380" as="geometry" />
+        </mxCell>
+        <mxCell id="db-title" value="&lt;b&gt;🗄️ DATABASE&lt;/b&gt;&lt;br&gt;MongoDB (Port 27017)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;fontSize=14;fontColor=#1a1a2e;" vertex="1" parent="1">
+          <mxGeometry x="930" y="110" width="200" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- Collections -->
+        <mxCell id="coll-users" value="👤 Users Collection&lt;br&gt;(Admin, Student)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=8;fillColor=#fff2cc;strokeColor=#d6b656;shadow=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="920" y="165" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="coll-schedules" value="📅 Schedules&lt;br&gt;Collection" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=8;fillColor=#fff2cc;strokeColor=#d6b656;shadow=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="165" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="coll-subjects" value="📚 Subjects&lt;br&gt;Collection" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=8;fillColor=#fff2cc;strokeColor=#d6b656;shadow=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="920" y="225" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="coll-rooms" value="🏫 Rooms&lt;br&gt;Collection" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=8;fillColor=#fff2cc;strokeColor=#d6b656;shadow=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="225" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="coll-classes" value="🎓 Classes&lt;br&gt;Collection" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=8;fillColor=#fff2cc;strokeColor=#d6b656;shadow=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="920" y="285" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="coll-slots" value="⏰ Slots&lt;br&gt;Collection" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=8;fillColor=#fff2cc;strokeColor=#d6b656;shadow=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="285" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="coll-complaints" value="📝 Complaints&lt;br&gt;Collection" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=8;fillColor=#fff2cc;strokeColor=#d6b656;shadow=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="970" y="345" width="110" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- DB Tech -->
+        <mxCell id="db-tech" value="&lt;b&gt;Tech:&lt;/b&gt; MongoDB 5.0&lt;br&gt;Mongoose ODM | Indexed Queries" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontColor=#666;" vertex="1" parent="1">
+          <mxGeometry x="920" y="405" width="210" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- DOCKER / DEPLOYMENT SECTION -->
+        <mxCell id="docker-group" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#999;dashed=1;dashPattern=8 4;shadow=1;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="540" width="1110" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="docker-title" value="&lt;b&gt;🐳 CONTAINERIZATION &amp; DEPLOYMENT — Docker Compose&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;fontSize=16;fontColor=#1a1a2e;" vertex="1" parent="1">
+          <mxGeometry x="330" y="550" width="520" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Docker Containers -->
+        <mxCell id="docker-fe" value="🐳 &lt;b&gt;Frontend Container&lt;/b&gt;&lt;br&gt;Node:16-alpine → Nginx&lt;br&gt;Port: 3000" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;shadow=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="70" y="590" width="200" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="docker-be" value="🐳 &lt;b&gt;Backend Container&lt;/b&gt;&lt;br&gt;Node:16-alpine&lt;br&gt;Port: 8000" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;shadow=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="340" y="590" width="200" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="docker-db" value="🐳 &lt;b&gt;MongoDB Container&lt;/b&gt;&lt;br&gt;mongo:5.0&lt;br&gt;Port: 27017" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6d0de;strokeColor=#996185;shadow=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="610" y="590" width="200" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="docker-volume" value="📦 &lt;b&gt;Volume&lt;/b&gt;&lt;br&gt;mongo-data&lt;br&gt;(Persistent Storage)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;shadow=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="880" y="590" width="160" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Docker arrows -->
+        <mxCell id="docker-arrow1" value="" style="endArrow=block;endFill=1;html=1;strokeWidth=2;strokeColor=#666;" edge="1" parent="1" source="docker-fe" target="docker-be">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="docker-arrow2" value="" style="endArrow=block;endFill=1;html=1;strokeWidth=2;strokeColor=#666;" edge="1" parent="1" source="docker-be" target="docker-db">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="docker-arrow3" value="" style="endArrow=block;endFill=1;html=1;strokeWidth=2;strokeColor=#666;" edge="1" parent="1" source="docker-db" target="docker-volume">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Network Label -->
+        <mxCell id="network-label" value="🌐 chronoexam-network (Docker Bridge Network)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=11;fontColor=#666;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="350" y="670" width="300" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- LEGEND -->
+        <mxCell id="legend-group" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fafafa;strokeColor=#ccc;shadow=0;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="1200" y="100" width="220" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-title" value="&lt;b&gt;📋 LEGEND&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=14;fontColor=#1a1a2e;" vertex="1" parent="1">
+          <mxGeometry x="1250" y="110" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-fe" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="1215" y="150" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-fe-text" value="Frontend (React.js)" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1245" y="147" width="150" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-be" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="1215" y="175" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-be-text" value="Backend (Node.js)" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1245" y="172" width="150" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-db" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6d0de;strokeColor=#996185;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="1215" y="200" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-db-text" value="Database (MongoDB)" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1245" y="197" width="150" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-auth" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="1215" y="225" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-auth-text" value="Auth Layer (JWT)" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1245" y="222" width="150" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-api" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="1215" y="250" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-api-text" value="API Routes" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1245" y="247" width="150" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-engine" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="1215" y="275" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-engine-text" value="Scheduling Engine" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1245" y="272" width="150" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-docker" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#999;dashed=1;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="1215" y="300" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-docker-text" value="Docker Container" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1245" y="297" width="150" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-arrow" value="" style="endArrow=block;endFill=1;html=1;strokeWidth=2;strokeColor=#e94560;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1215" y="335" as="sourcePoint" />
+            <mxPoint x="1240" y="335" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="legend-arrow-text" value="Data Flow" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1245" y="325" width="150" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- User icons at top -->
+        <mxCell id="user-admin" value="🧑‍💼 Admin" style="shape=mxgraph.basic.smiley;dx=0.65;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;shadow=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="80" y="60" width="40" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="user-student" value="🎓 Student" style="shape=mxgraph.basic.smiley;dx=0.65;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;shadow=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="230" y="60" width="40" height="35" as="geometry" />
+        </mxCell>
+
+        <!-- User arrows -->
+        <mxCell id="admin-arrow" value="" style="endArrow=block;endFill=1;html=1;strokeWidth=2;strokeColor=#b85450;" edge="1" parent="1" source="user-admin" target="frontend-group">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="student-arrow" value="" style="endArrow=block;endFill=1;html=1;strokeWidth=2;strokeColor=#6c8ebf;" edge="1" parent="1" source="user-student" target="frontend-group">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

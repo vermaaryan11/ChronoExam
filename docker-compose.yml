@@ -1,0 +1,85 @@
+# ========================
+# ChronoExam - Docker Compose
+# ========================
+# Usage:
+#   docker-compose up --build      (build and start all services)
+#   docker-compose down            (stop all services)
+#   docker-compose logs -f         (view logs)
+# ========================
+
+version: '3.8'
+
+services:
+  # ─────────────────────────────────
+  # MongoDB Database
+  # ─────────────────────────────────
+  mongo:
+    image: mongo:5.0
+    container_name: chronoexam-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - chronoexam-network
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ─────────────────────────────────
+  # Backend (Node.js / Express)
+  # ─────────────────────────────────
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: chronoexam-backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - NODE_ENV=development
+      - PORT=8000
+      - MONGODB_URI=mongodb://mongo:27017/chronoexam
+      - JWT_SECRET=chronoexam-secret-key
+    depends_on:
+      mongo:
+        condition: service_healthy
+    volumes:
+      - ./server:/app/server
+      - ./app.js:/app/app.js
+    networks:
+      - chronoexam-network
+
+  # ─────────────────────────────────
+  # Frontend (React.js)
+  # ─────────────────────────────────
+  frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: chronoexam-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - chronoexam-network
+
+# ─────────────────────────────────
+# Docker Volumes
+# ─────────────────────────────────
+volumes:
+  mongo-data:
+    driver: local
+
+# ─────────────────────────────────
+# Docker Networks
+# ─────────────────────────────────
+networks:
+  chronoexam-network:
+    driver: bridge
