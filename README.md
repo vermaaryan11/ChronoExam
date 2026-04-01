@@ -31,10 +31,10 @@ Manual exam scheduling at universities is plagued by several critical issues:
 | **No conflict validation** | Errors are discovered only after schedules are published |
 
 **ChronoExam** solves all of these by automating schedule generation with built-in constraint validation, ensuring:
-- ✅ No two exams for the same student overlap in time
-- ✅ Minimum **2-hour gap** between consecutive exams per student
-- ✅ No room double-booking
-- ✅ Instant conflict detection with clear resolution guidance
+- No two exams for the same student overlap in time
+- Minimum **2-hour gap** between consecutive exams per student
+- No room double-booking
+- Instant conflict detection with clear resolution guidance
 
 ---
 
