@@ -1,4 +1,4 @@
-<![CDATA[# 🎓 ChronoExam — Smart Exam Scheduling System
+# 🎓 ChronoExam — Smart Exam Scheduling System
 
 <p align="center">
   <img src="https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge" />
