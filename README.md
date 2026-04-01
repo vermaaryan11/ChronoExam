@@ -128,21 +128,6 @@ Manual exam scheduling at universities is plagued by several critical issues:
 
 ---
 
-## 🧩 User Stories (Summary)
-
-> 📋 **Full 25 user stories are available as [GitHub Issues](https://github.com/vermaaryan11/ChronoExam/issues) in this repository.**
-
-| # | User Story | Priority |
-|---|-----------|----------|
-| 1 | As an Admin, I want to create an exam schedule so that exams are organized | Must Have |
-| 2 | As an Admin, I want the system to detect time conflicts so no student has overlapping exams | Must Have |
-| 3 | As an Admin, I want to enforce a 2-hour gap between exams for each student | Must Have |
-| 4 | As a Student, I want to view my personalized exam timetable | Must Have |
-| 5 | As an Admin, I want to manage rooms and halls for exams | Must Have |
-| ... | *See all 25 issues on GitHub* | — |
-
----
-
 ## 🧠 MoSCoW Prioritization
 
 ### ✅ Must Have (Critical for MVP)
