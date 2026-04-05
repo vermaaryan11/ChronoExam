@@ -4,7 +4,8 @@
   "description": "Gaming platform",
   "main": "app.js",
   "scripts": {
-    "install:client": "cd client && npm install  --force --legacy-peer-deps",
+    "start": "nodemon --delay 500ms app.js",
+    "install:client": "cd client && npm install --force --legacy-peer-deps",
     "client": "cd client && npm start",
     "build:client": "cd client && ng build --prod",
     "install:server": "npm install",

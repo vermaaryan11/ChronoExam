@@ -1,60 +1,101 @@
-let express = require("express");
-const mongoose = require('mongoose');
-
 require("dotenv").config();
 
-// Create global app object
-let app = express();
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
 
-require("./server/app-config")(app);
+const app = express();
 
+// ======================
+// Middleware
+// ======================
+app.use(cors());
+app.use(express.json());
 
+// ======================
+// MongoDB Connection
+// ======================
+mongoose
+  .connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("MongoDB Connected ✅");
+  })
+  .catch((err) => {
+    console.error("MongoDB Connection Error ❌:", err);
+    process.exit(1);
+  });
 
-// const http = require('http').Server(app);
-
-// finally, let's start our server...
-let server = app.listen(8000, function () {
-  console.log("Listening on port " + server.address().port);
+// ======================
+// Sample Schema (for testing)
+// ======================
+const examSchema = new mongoose.Schema({
+  student: String,
+  subject: String,
+  time: String,
 });
 
-process.on('SIGTERM', () => {
-  console.info('SIGTERM signal received.');
-  console.log('Closing http server.');
+const Exam = mongoose.model("Exam", examSchema);
 
-  server.close(() => {
-    console.log('Http server closed.');
-    // boolean means [force], see in mongoose doc
-    mongoose.connection.close(false, () => {
-      console.log('MongoDb connection closed.');
-      process.kill(process.pid, 'SIGTERM');
-      process.exit(0);
+// ======================
+// Routes
+// ======================
 
-    });
-  });
-});
-process.once('SIGUSR2', function () {
-
-  server.close(() => {
-    console.log('Http server closed.');
-    // boolean means [force], see in mongoose doc
-    mongoose.connection.close(false, () => {
-      console.log('MongoDb connection closed.');
-      process.kill(process.pid, 'SIGUSR2');
-      process.exit(0);
-    });
-  });
+// Test route
+app.get("/", (req, res) => {
+  res.send("ChronoExam Backend Running 🚀");
 });
 
-process.on('SIGINT', function () {
-  // this is only called on ctrl+c, not restart
-  server.close(() => {
-    console.log('Http server closed.');
-    // boolean means [force], see in mongoose doc
-    mongoose.connection.close(false, () => {
-      console.log('MongoDb connection closed.');
-      process.kill(process.pid, 'SIGINT');
+// Add exam (with basic validation)
+app.post("/add-exam", async (req, res) => {
+  try {
+    const { student, subject, time } = req.body;
 
-      process.exit(0);
-    });
-  });
+    // Fetch existing exams for same student
+    const exams = await Exam.find({ student });
+
+    const newTime = new Date(`2024-01-01 ${time}`);
+
+    for (let exam of exams) {
+      const existingTime = new Date(`2024-01-01 ${exam.time}`);
+      const diff = Math.abs(newTime - existingTime) / (1000 * 60 * 60);
+
+      // ❌ Conflict or less than 2 hour gap
+      if (diff < 2) {
+        return res.json({
+          success: false,
+          message: "Conflict or less than 2-hour gap!",
+        });
+      }
+    }
+
+    // Save exam
+    const newExam = new Exam({ student, subject, time });
+    await newExam.save();
+
+    res.json({ success: true, message: "Exam scheduled successfully ✅" });
+  } catch (error) {
+    res.status(500).json({ error: "Server error ❌" });
+  }
+});
+
+// Get all exams
+app.get("/exams", async (req, res) => {
+  try {
+    const exams = await Exam.find();
+    res.json(exams);
+  } catch (error) {
+    res.status(500).json({ error: "Error fetching exams" });
+  }
+});
+
+// ======================
+// Server Start
+// ======================
+const PORT = process.env.PORT || 8000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
 });

@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import './index.css';
 import App from './App';
-import { UserProvider } from './store/UserStore'
-import reportWebVitals from './reportWebVitals';
+import { UserProvider } from './store/UserStore';
 
 ReactDOM.render(
   <UserProvider>
@@ -10,5 +10,3 @@ ReactDOM.render(
   </UserProvider>,
   document.getElementById('root')
 );
-
-reportWebVitals();
