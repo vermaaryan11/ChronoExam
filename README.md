@@ -211,6 +211,20 @@ Manual exam scheduling at universities is plagued by several critical issues:
 
 ---
 
+## 🎨 Software Design
+
+Our application follows a modular, client-server architecture separating the React frontend from the Node.js/Express backend. This ensures low coupling, high cohesion, and secure role-based data fetching. The user interface was designed with Figma, prioritizing responsive, dark-themed, and accessible layouts out of the box for both student and administrative roles.
+
+### System Architecture Diagram
+![System Architecture Diagram](docs/design/architecture.png)
+*(Note: Please place architecture.png here)*
+
+> 📐 **Design Files & Prototypes**: 
+> - Editable Architecture Diagram: [`docs/design/architecture.drawio`](docs/design/architecture.drawio)
+> - Figma Links & Prototypes: See [`docs/design/figma_links.md`](docs/design/figma_links.md)
+
+---
+
 ## 📁 Folder Structure
 
 ```

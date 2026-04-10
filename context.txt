@@ -1,0 +1,131 @@
+# 📚 CHRONOEXAM - COMPREHENSIVE SYSTEM ARCHITECTURE & CONTEXT MASTER DOCUMENT
+
+This document serves as the absolute, encyclopedic reference for the ChronoExam system. It covers high-level architectural decisions, low-level database structural paradigms, API routing behaviors, state management flows, full feature set prioritization, and frontend UI topographies.
+
+---
+
+## 1. 🏗️ HIGH-LEVEL ARCHITECTURAL PARADIGM
+
+ChronoExam is engineered as a monolithic MERN application with a decoupled Single Page Application (SPA) frontend. It solves university examination scheduling by moving from manual, clash-prone spreadsheets to a deterministic, conflict-free Node.js backend algorithm that interfaces with an interactive React dashboard.
+
+### 1.1 Core Technology Stack & Versions
+| Tier | Technology | Key Packages & Versions | Purpose |
+|------|-----------|------------------------|---------|
+| **Frontend** | React SPA | `react` (17.0.2), `react-router-dom` (5.3.0), `tailwindcss` (3.4.17) | User Interfaces, dynamic client-side routing, and responsive glassmorphic styling. |
+| **State** | Redux | `@reduxjs/toolkit` (1.7.1), `react-redux` (7.2.6) | Caching JWT tokens and maintaining global application state across portals. |
+| **Backend** | API Server | `express` (4.17.1), `express-jwt`, `passport` | HTTP REST interface, middleware authentication, and request handling. |
+| **Database** | MongoDB | `mongoose` (5.9.18), `mongoose-paginate-v2`, `crypto` | Data persistence, ODM modeling, schema validations, and manual password PBKDF2 hashing. |
+| **DevOps** | Docker | `docker-compose.yml`, `node:14-alpine` | Containerization to unify developer environments. |
+
+### 1.2 The Tri-Role RBAC System (Role-Based Access Control)
+Roles exist as hardcoded **Integers** on the `User` document:
+- **`Role 1` (Admin / Exam Controller)**: Complete application supremacy. Creates schedules, views system analytics, manages rooms/faculty, handles student complaints.
+- **`Role 2` (Faculty / Teacher)**: Mid-tier. Their explicit goal is fulfilling `attendance` logic for subjects they are assigned to.
+- **`Role 3` (Student)**: Consumer tier. Filters schedules by their specific `className`, files grievance tickets (`Complaints`), and receives web-notifications natively.
+
+---
+
+## 2. 🎯 FEATURE SET & CAPABILITIES (MoSCoW Prioritization)
+
+The system boundaries are defined definitively into Core requirements, Stretch goals, and Out-of-Scope boundaries. 
+
+### ✅ Must Have (Critical for Core Operation)
+1. **User Authentication:** Admin & Student login leveraging manual JWT generation over crypto hashed passwords.
+2. **Schedule CRUD Engine:** Admin capabilities to Create, Read, Update, and Delete exam blocks.
+3. **Primary Conflict Logic:** Absolutely no overlapping exams for the exact same student entity.
+4. **Gap Enforcement Enforcement:** 2-hour minimum gap between consecutive student exams.
+5. **Role-based Renderings:** Student timetable isolated vs Admin Masterview.
+6. **Venue Protection:** Systemic Room/Hall double-booking prohibition upon POST creation.
+7. **Basic Entity Management:** CRUD capabilities for Subjects, Rooms, and Classes.
+8. **Admin Top-Level Dashboard:** For statistical overviews.
+
+### 👍 Should Have (Important Enhancements)
+9. **Interactive System Queue:** A Student complaint filing system allowing dispute flagging.
+10. **Resolution Hub:** Admin complaint resolution/triage interface mapped natively to the database.
+11. **Draft Workflow:** Proper Schedule publishing workflow (from Draft → Push/Publish).
+12. **Asynchronous Alerts:** Web Notifications blasted directly to Students upon schedule structural changes.
+13. **Robust Client Querying:** Search and filter capabilities by Subject, Date, Room.
+14. **Excel Ingestion Tooling:** Bulk import toolsets for migrating off excel files into Student/Subject schema states.
+
+### ⭐ Could Have (Nice to Have Enhancements)
+15. **Local Downloads:** PDF export of the exact React rendered HTML view (via `html2canvas`/`jsPDF`).
+16. **Remote Transmissions:** SMTP Email Notifications via `Nodemailer` integrations for updates.
+17. **Granular Analytics:** Dashboard charts and specific graphical interpretations of datasets via `Recharts`.
+18. **Excel Dumps:** Exporting JSON Schedule maps out into valid Excel formats.
+19. **Cal Views:** Visual grid layouts mapped to a Month/Week format utilizing `React Big Calendar`.
+20. **Visual Modifiers:** Dark Mode / Runtime theme toggling.
+
+### ❌ Out of Scope (Won't Have)
+- **Native Applications:** No localized iOS/Android swift/kotlin conversions. Strict responsive desktop/browser dependencies.
+- **AI Tooling:** Hardcoded algorithmic detections rather than LLM / Machine Learning fuzzy scheduling guesses.
+- **Multi-Tenant Mode:** Strictly designed as a single execution platform for one university localized runtime entirely per deployment.
+
+---
+
+## 3. 🗄️ LOW-LEVEL DATABASE ARCHITECTURE (MONGOOSE SCHEMAS)
+
+Unlike traditional SQL which favors heavy normalization, ChronoExam adopts hybrid denormalization for faster reads on the `/api/schedule` endpoint.
+
+### 3.1 The `Schedule` Entity (The Core Output)
+Instead of individual "Exam" rows tying together IDs, ChronoExam models exams as an array inside a master `Schedule` document. 
+* **Structure:**
+  * `slug`: Unique string, auto-generated by a `pre-validate` hook.
+  * `title`: Master title.
+  * `subjects` (Array of Objects): The denormalized core. Each element contains `name`, `teacher`, `room`, `className`, `date`, `startTime`, `endTime`, `attendance`.
+* **Why this Architecture?** Generating timetables natively requires fetching the entire test grid so the client can map it on a React Big Calendar. Denormalizing prevents the need for 500+ `$lookup` aggregates during student logins.
+
+### 3.2 The `User` Entity (Security & Identity)
+* **Cryptographic Paradigm:** Rather than `bcrypt`, ChronoExam utilizes Node's built-in `crypto` library. Passwords pass into `crypto.pbkdf2Sync(pw, salt, 10000, 512, "sha512")` producing hexadecimal cryptographic hashes before Mongoose inserts.
+* **Tokens:** The User Model possesses a `.generateJWT()` method which encodes `{ id, email, exp }` signed against an env secret with a 60-day expiry loop.
+
+### 3.3 Flow Entities
+* **`Complaint`**: Submitted by Students. Contains `slug`, `description`, `by` (Ref to User), `reply`, and `status`. Automatically hooks `Mongoose populate` across User lookups.
+* **`Notification`**: Broadcast items containing `title`, `message`, `read`, `user` (Ref ID). 
+
+---
+
+## 4. 🌐 API CONTROLLER LOGIC & BUSINESS WORKFLOWS
+
+Located in `server/routes/api/`, the controllers blend Express logic with domain specific constraints. 
+
+### 4.1 The Scheduling Constraint Engine (`schedule.js`)
+When an Admin POSTs a new array of exams, the controller intercepts:
+1. **Room Capacity Check:** It cross-references the requested `form.room` against `Room` Schema. If capacity is overrun, it throws an `express-http-response` error.
+2. **Notification Fan-out:** If successful, Mongoose executes a massive insertion logic pushing a generic alert to every single Student simultaneously.
+
+### 4.2 Complaint Resolution Loop (`complaint.js`)
+- `POST /` (by Student) → Assigns `req.user._id` to `complaint.by`, saves as `status: 1` (Pending).
+- `POST /reply/:slug` (by Admin) → Updates `{reply: text, status: 2}` closing the loop natively.
+
+### 4.3 Analytics & Reporting
+- `/api/schedule/analytics` returns aggregated system health building an object dictionary tracking `roomUtilization`.
+- `/api/schedule/export` fires the npm library `write-excel-file/node`, mapping properties down to `.xlsx` forced download.
+
+---
+
+## 5. 🖼️ FRONTEND TOPOGRAPHY AND UI DESIGN 
+
+### 5.1 Design Language
+The UI aggressively employs **"Glassmorphism"**. Component backgrounds are rendered via `tailwindcss` arbitrary classes like `bg-white/5` paired with `backdrop-blur-xl`. 
+
+### 5.2 Application Route Mapping Structure
+Interfacing `react-router-dom`:
+* **Public Boundary Routes:** 
+  - `/` -> `<LandingPage />`
+  - `/admin/login` -> `<AdminLogin />`
+* **Private Boundary Routes (Protected via `<ProtectedRoute>` HOC):**
+  - `/admin/dashboard` -> `<AdminDashboard />`: Holds state `activeTab` rendering structural layers like `<ScheduleCalendar />` or `<AdminAnalytics />`.
+  - `/student/dashboard` -> `<StudentDashboard />`: Mounts `<NotificationTray />` and personalized timetables natively tracking constraints.
+
+### 5.3 Redux and State Flow
+Redux stores the JWT Token globally and updates LocalStorage. The `<ProtectedRoute>` wrapper observes slice state `isAuthenticated` locally ensuring routing validity prior to backend authorization checks. Axios embeds the Token using `Headers: { Authorization: 'Token xyz'}` on subsequent network queries natively.
+
+---
+
+## 6. 🛠 CONFIGURATION & SYSTEM INITIALIZATION
+
+### 6.1 Server Entry and Boot Sequence
+- **Boot Behaviors:** Bootstraps dev-logging and `express-session`, enforces strict Cross-Origin Resource Sharing (CORS) directly returning `callback(new Error)` if domain requests fall outside `localhost:3000`. Models are centrally pre-executed globally setting schemas.
+
+### 6.2 Docker Network Flow
+- Defined by `docker-compose.yml`, bypassing manual setups. Wait conditions explicitly prevent Node apps crashing via `echo 'db.runCommand("ping")'` inside the `healthcheck` ensuring standard Mongo executions fully complete before `app.js` runs.

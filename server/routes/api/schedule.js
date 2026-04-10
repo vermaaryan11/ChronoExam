@@ -9,12 +9,36 @@ let {
 } = require("express-http-response");
 var Schedule = mongoose.model("Schedule");
 
-router.post('/', auth.required, auth.admin, (req, res, next) => {
+router.post('/', auth.required, auth.admin, async (req, res, next) => {
     let schedule = new Schedule(req.body);
-    schedule.save((err, schedule) => {
-        console.log(err);
-        next(new OkResponse("Schedule created successfully"));
-    });
+    try {
+        // Room Capacity Validation
+        const Room = mongoose.model("Room");
+        const assignedRoom = await Room.findOne({ name: req.body.room });
+        if (assignedRoom && assignedRoom.capacity < 60) { // Assuming average class size is 60
+             return next(new BadRequestResponse(`Capacity Error: Room ${req.body.room} only has ${assignedRoom.capacity} seats, but the class requires 60.`));
+        }
+
+        const savedSchedule = await schedule.save();
+        
+        // Notify all students
+        const User = mongoose.model("User");
+        const Notification = mongoose.model("Notification");
+        const students = await User.find({ role: 3 });
+        
+        const notifications = students.map(student => ({
+            user: student._id,
+            title: "New Exam Schedule Published",
+            message: `A new exam schedule "${req.body.title || 'Examination'}" has been published. Please check your timetable.`,
+            type: 'schedule'
+        }));
+        
+        await Notification.insertMany(notifications);
+        
+        next(new OkResponse("Schedule created successfully and students notified"));
+    } catch (err) {
+        next(new BadRequestResponse(err.message));
+    }
 });
 
 router.get('/', auth.required, auth.user, (req, res, next) => {
@@ -107,5 +131,40 @@ router.post('/attendance', auth.required, auth.user, async (req, res, next) => {
     })
   })
 })
+
+router.get('/analytics', auth.required, auth.admin, async (req, res, next) => {
+    try {
+        const Room = mongoose.model("Room");
+        const Subject = mongoose.model("Subject");
+        const Complaint = mongoose.model("Complaint");
+        
+        const schedule = await Schedule.findOne({}).sort({_id: -1});
+        const roomCount = await Room.countDocuments({});
+        const subjectCount = await Subject.countDocuments({});
+        const complaintCount = await Complaint.countDocuments({ status: 1 }); // Active complaints
+        
+        const examCount = schedule ? schedule.subjects.length : 0;
+        
+        // Group by room to see utilization
+        const roomUtilization = {};
+        if (schedule) {
+            schedule.subjects.forEach(s => {
+                roomUtilization[s.room] = (roomUtilization[s.room] || 0) + 1;
+            });
+        }
+
+        next(new OkResponse({
+            counts: {
+                rooms: roomCount,
+                subjects: subjectCount,
+                complaints: complaintCount,
+                exams: examCount
+            },
+            roomUtilization
+        }));
+    } catch (err) {
+        next(new BadRequestResponse(err.message));
+    }
+});
 
 module.exports = router;

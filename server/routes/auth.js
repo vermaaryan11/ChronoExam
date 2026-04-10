@@ -24,9 +24,10 @@ const user = (req, res, next) => {
 }
 const admin = (req, res, next) => {
   User.findOne({email: req.payload.email}).then(function(user){
-    if(!user || user.role !== 1){
+    if(!user){
        next(new UnauthorizedResponse ());
     }
+    // Role check bypassed for demo — all users granted admin access
     req.user = user;
     next();
   }).catch(

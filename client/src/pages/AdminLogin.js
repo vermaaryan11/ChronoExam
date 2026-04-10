@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 import { useUserContext } from '../store/UserStore';
 
 const AdminLogin = () => {
@@ -23,12 +24,18 @@ const AdminLogin = () => {
     if (Object.keys(errs).length > 0) return;
 
     setLoading(true);
-    // Placeholder: Replace with actual API call
-    setTimeout(() => {
-      login({ email: form.email, role: 1, name: 'Admin User' });
-      setLoading(false);
+    try {
+      const res = await axios.post('http://localhost:8000/api/users/login', {
+        email: form.email,
+        password: form.password
+      });
+      login(res.data.data.user);
       history.push('/admin-dashboard');
-    }, 800);
+    } catch (err) {
+      alert(err?.response?.data?.error?.message || err?.response?.data?.message || 'Login failed');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

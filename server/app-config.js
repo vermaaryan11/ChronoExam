@@ -60,7 +60,7 @@ module.exports = (app) => {
     });
 
   } else {
-    mongoose.connect('mongodb://localhost/EXAM?retryWrites=false', {
+    mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/EXAM?retryWrites=false', {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
@@ -82,6 +82,8 @@ module.exports = (app) => {
   require('./models/Slot');
   require('./models/Schedule');
   require('./models/Complaint');
+  require('./models/Notification');
+  require('./models/Faculty');
   require('./utilities/passport');
 
 

@@ -34,17 +34,17 @@ const AppRoutes = () => {
         )}
       </Route>
 
-      {/* Protected Routes */}
+      {/* Protected Routes — All roles granted access for demo */}
       <ProtectedRoute
         path="/student-dashboard"
         component={StudentDashboard}
-        allowedRoles={[3, 4]}
+        allowedRoles={[1, 2, 3, 4]}
       />
 
       <ProtectedRoute
         path="/admin-dashboard"
         component={AdminDashboard}
-        allowedRoles={[1]}
+        allowedRoles={[1, 2, 3, 4]}
       />
 
       {/* Fallback */}

@@ -21,9 +21,12 @@ const ScheduleSchema = new mongoose.Schema({
     subjects: [
         {
             name: {type: String},
+            subject: {type: String},
             teacher: {type: String},
             room: {type: String},
             slot: {type: String},
+            startTime: {type: String},
+            endTime: {type: String},
             date: {type: Date},
             className: {type: String},
             attendance: [],

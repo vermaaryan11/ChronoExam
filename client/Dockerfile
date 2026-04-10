@@ -16,6 +16,8 @@ RUN npm install --legacy-peer-deps
 # Copy source code
 COPY public/ ./public/
 COPY src/ ./src/
+COPY tailwind.config.js ./
+COPY postcss.config.js ./
 
 # Build the production bundle
 RUN npm run build
